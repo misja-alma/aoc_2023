@@ -1,12 +1,14 @@
 (executable
- (public_name test)
+ (public_name countle_solver)
  (name countle_solver)
  (modules countle_solver fib)
  (libraries bheap sexp_pretty ppx_jane)
  (preprocess (pps ppx_sexp_conv))
+ (modes exe)
  (flags 
   (:standard -warn-error -A)
   )
+ (ocamlopt_flags (:standard -O3))
  )
 
  

@@ -14,7 +14,7 @@ type step = {
 } [@@deriving sexp]
 
 type countle_state = {
-  subtotal: int; (* Note: better name would be latestResult *)
+  latestResult: int; 
   nrsLeft: int list;
   (* TODO Do we want to cache the hashcode of the steps? *)
   steps: step list;
@@ -22,22 +22,21 @@ type countle_state = {
 
 let calculate {left; right; op} = match op with
     Plus  -> Some(left + right)
-  | Minus -> Some(left - right)
+  | Minus -> if left > right then Some(left - right) else None
   | Mul   -> Some(left * right)
   | Div   -> if right == 0 || (left mod right != 0) then None else Some(left / right)
 
 let rec remove xs x = match xs with
-    [] -> failwith "x not found in list"
+    [] -> failwith "element not found in list"
   | y :: ys -> if x == y then ys else y :: remove ys x 
 
-let applyOp state step = 
-  (* Note: what do we do with negative results? And with zeroes? *)
-  match calculate step with (* TODO use map *)
-      None -> None
-    | Some(result) ->  
+let applyOp state step = let maybeResult = calculate step in 
+  Option.map 
+    (fun result  ->  
         let newNrsLeft = result :: remove (remove state.nrsLeft step.left) step.right in
         let newSteps = step :: state.steps in
-          Some { subtotal = result; nrsLeft = newNrsLeft; steps = newSteps }
+          { latestResult = result; nrsLeft = newNrsLeft; steps = newSteps }) 
+    maybeResult
 
 let take2 lst = 
   let (let*) xs f = List.concat_map f xs in
@@ -58,8 +57,8 @@ module OrderedCountleState =
 struct
   type t = countle_state
   let compare x y = 
-    if x.subtotal = y.subtotal then listCompare x.nrsLeft y.nrsLeft
-    else compare x.subtotal y.subtotal 
+    if x.latestResult = y.latestResult then listCompare x.nrsLeft y.nrsLeft
+    else compare x.latestResult y.latestResult 
 end
 
 module CS = Set.Make(OrderedCountleState)
@@ -73,17 +72,17 @@ let inputs = Sys.argv
 let total = int_of_string inputs.(1)
 let nrs = List.map int_of_string (Array.to_list (Array.sub inputs 2 (Array.length inputs - 2)))
 
-let state = { subtotal = 0; nrsLeft = nrs; steps = [] }
+let state = { latestResult = 0; nrsLeft = nrs; steps = [] }
 let () = Queue.add state q
 
 let found = ref false
-let result = ref state (* TODO check if something like a Nil ref exists *)
+let result = ref state 
 
 let () =
   while not (Queue.is_empty q) && not !found do 
     let next = Queue.pop q in
       begin
-        let () = found := (next.subtotal == total) in
+        let () = found := (next.latestResult == total) in
         begin
           if !found then result := next
           else
