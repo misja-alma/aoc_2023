@@ -34,16 +34,15 @@ type point = {
   y: int;
 } [@@deriving sexp]
 
-let cmp a b = if a > b then 1 else if a < b then -1 else 0
-
 module OrderedPoint =
 struct
   type t = point [@@deriving sexp] (* God knows why this is needed here *)
 
   let compare a b = 
-    if a.x = b.x then cmp a.y b.y
-    else cmp a.x b.x 
+    if a.x = b.x then compare a.y b.y
+    else compare a.x b.x 
 end
+
 module PS = Set.Make(OrderedPoint)
 
 type number_block = {
@@ -62,8 +61,7 @@ let neighbours ~x ~y ~width ~height =
 let get grid pt = grid.(pt.y).(pt.x)  
 
 let neighbour_symbols row col = let nbs = neighbours ~x:col ~y:row ~width:width ~height:height in
-                               (* TODO check how we can make not, =, != more usable ..*)
-                               let result = List.filter nbs ~f:(fun pt -> let value = get grid pt in (not (Char.is_digit value)) && (not (value = '.'))) in
+                               let result = List.filter nbs ~f:(fun pt -> let value = get grid pt in (not (Char.is_digit value)) && (value != '.')) in
                                PS.of_list result
 
 let checkCell state row col = let c = grid.(row).(col) in 

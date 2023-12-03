@@ -1,6 +1,7 @@
 open Core
 
-let (=) = Poly.(=);;
+let (=) = Poly.(=)
+let (!=) a b = not(a = b)
 
 let rec range from upto = if from = upto then [from] else from :: range (from + 1) upto
 
