@@ -1,5 +1,6 @@
 open Core
 open Angstrom
+open Aoc
 
 let (=) = Poly.(=);;
 
@@ -64,10 +65,6 @@ let totalsUsed = let games = List.map lines ~f:game in List.map games ~f:maxColo
 let inUse = [("red", 12); ("green", 13); ("blue", 14)]
 
 let possible = List.filter totalsUsed ~f:(fun (_, totals) -> List.for_all totals ~f:(fun (clr, total) -> total <= snd @@ List.find_exn inUse ~f:(fun (c, _) -> c = clr)))
-
-let rec intSum xs = match xs with
-  | [] -> 0
-  | y :: ys -> (y + intSum ys)
 
 let solution = intSum (List.map possible ~f:fst)
 

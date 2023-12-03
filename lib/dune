@@ -1,2 +1,4 @@
 (library
- (name fib))
+ (name aoc)
+ (libraries core)
+)

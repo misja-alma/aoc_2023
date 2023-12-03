@@ -1,11 +1,9 @@
 open Core
+open Aoc
 
 let file = "input/day1.txt"
 let lines = In_channel.read_lines file
 
-let rec range from upto = if from = upto then [from] else from :: range (from + 1) upto
-let flatten xs = 
-  List.concat  @@ List.map xs ~f:(function | None -> [] | Some x -> [x])
 
 let tokens = List.zip_exn (range 0 9) ["zero"; "one"; "two"; "three"; "four"; "five"; "six"; "seven"; "eight"; "nine"]
 let digits = let ds = range 0 9 in List.zip_exn ds (List.map ds ~f:string_of_int)

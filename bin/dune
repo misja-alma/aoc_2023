@@ -1,8 +1,8 @@
 (executable
- (public_name day2)
- (name day2)
- (modules countle_solver day2)
- (libraries core bheap sexp_pretty ppx_jane angstrom)
+ (public_name day3)
+ (name day3)
+ (modules countle_solver day3)
+ (libraries core bheap sexp_pretty ppx_jane angstrom aoc)
  (preprocess (pps ppx_sexp_conv))
  (modes exe)
  (flags 
