@@ -6,9 +6,6 @@ let lines = In_channel.read_lines file
 
 let pow2 n = Int.shift_left 1 n
 
-let parseSpaceSeparatedNrs str = let rawInts = List.filter (String.split_on_chars str ~on:[' ']) ~f:(fun t -> String.length t > 0) in
-                                 List.map rawInts ~f:int_of_string
-
 module IS = Set.Make(Int)
 
 let parseLine line = let nrs = List.nth_exn (String.split_on_chars line ~on:[':']) 1 in
