@@ -1,9 +1,9 @@
 (executable
- (public_name day5)
- (name day5)
- (modules countle_solver day5)
- (libraries core bheap sexp_pretty ppx_jane angstrom aoc)
- (preprocess (pps ppx_sexp_conv))
+ (public_name day7)
+ (name day7)
+ (modules countle_solver day1_1 day1_2 day2 day3 day4 day5 day6 day7)
+ (libraries core bheap sexp_pretty ppx_jane angstrom aoc range)
+ (preprocess (pps ppx_sexp_conv ppx_deriving.enum))
  (modes exe)
  (flags 
   (:standard -warn-error -A)
