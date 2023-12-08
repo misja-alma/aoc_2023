@@ -1,0 +1,8 @@
+(library
+ (name range)
+ (libraries core ppx_jane sexp_pretty ounit2)
+ (preprocess (pps ppx_sexp_conv))
+ (flags 
+  (:standard -warn-error -A)
+  )
+)

@@ -1,0 +1,4 @@
+(library
+ (name aoc)
+ (libraries core zarith)
+)
