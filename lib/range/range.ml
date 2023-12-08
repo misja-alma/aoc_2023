@@ -4,10 +4,13 @@ open Sexplib.Std
 type range = {
   start: int;
   length: int;
-} [@@deriving sexp]
+} [@@deriving sexp, eq, show]
+
 let empty_range = {start = 0; length = 0} 
+let is_empty r = r.length = 0
 
 let intersect r1 r2 = 
+  if is_empty r1 || is_empty r2 then empty_range else
   if r1.start < r2.start then 
     if r1.start + r1.length > r2.start then let preamble = r2.start - r1.start in {start = r2.start; length = min r2.length (r1.length - preamble)}
     else empty_range  

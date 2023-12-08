@@ -1,7 +1,7 @@
 (library
  (name range)
  (libraries core ppx_jane sexp_pretty ounit2)
- (preprocess (pps ppx_sexp_conv))
+ (preprocess (pps ppx_sexp_conv ppx_deriving.eq ppx_deriving.show))
  (flags 
   (:standard -warn-error -A)
   )
