@@ -1,7 +1,7 @@
 (executable
- (public_name day8)
- (name day8)
- (modules countle_solver day1_1 day1_2 day2 day3 day4 day5 day6 day7 day8)
+ (public_name day9)
+ (name day9)
+ (modules countle_solver day1_1 day1_2 day2 day3 day4 day5 day6 day7 day8 day9)
  (libraries core bheap sexp_pretty ppx_jane angstrom aoc range)
  (preprocess (pps ppx_sexp_conv ppx_deriving.enum))
  (modes exe)

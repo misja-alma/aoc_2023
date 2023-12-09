@@ -38,7 +38,7 @@ let lfilter f xs = List.filter xs ~f:f
 let flatten xs = List.concat_map xs ~f:(function | None -> [] | Some x -> [x])
 (* requires step <= size *)
 let rec sliding xs ~size ~step = let () = assert (step <= size) in
-  if List.length xs <= step then [xs] else let (head, tail) = (List.take xs size, List.drop xs step) in head :: sliding tail ~size:size ~step:step
+  if List.length xs <= size then [xs] else let (head, tail) = (List.take xs size, List.drop xs step) in head :: sliding tail ~size:size ~step:step
 
 
 let amap f xs = Array.map xs ~f:f  
